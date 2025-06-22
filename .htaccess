@@ -1,0 +1,43 @@
+# ---------- 1. Bật rewrite & đẩy mọi route về index.html ----------
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Giữ nguyên các file / thư mục thật (JS, CSS, images…)
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # Các URL còn lại -> index.html
+  RewriteRule ^ index.html [L]
+</IfModule>
+
+# ---------- 2. Bật nén Gzip/Brotli ----------
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json
+</IfModule>
+
+<IfModule mod_brotli.c>
+  AddOutputFilterByType BROTLI_COMPRESS text/html text/css application/javascript application/json
+</IfModule>
+
+# ---------- 3. Thiết lập cache tĩnh ----------
+<IfModule mod_expires.c>
+  ExpiresActive On
+  # HTML: luôn lấy mới (vì index.html có hash ẩn trong bundle hoặc được deploy lại)
+  ExpiresByType text/html "access plus 0 seconds"
+
+  # Static assets do CRA/Vite build có hash -> cache lâu
+  ExpiresByType text/css               "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType image/png              "access plus 1 year"
+  ExpiresByType image/jpeg             "access plus 1 year"
+  ExpiresByType image/svg+xml          "access plus 1 year"
+  ExpiresByType font/woff2             "access plus 1 year"
+</IfModule>
+
+# ---------- 4. Bảo mật nhỏ gọn ----------
+# Ẩn tập tin cấu hình, env, source-map
+<FilesMatch "\.(env|map)$">
+  Require all denied
+</FilesMatch>
