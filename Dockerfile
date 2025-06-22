@@ -8,7 +8,7 @@ RUN rm -rf /usr/local/apache2/htdocs/*
 COPY mr_quynh_build_1/ /usr/local/apache2/htdocs/
 
 # Copy file .htaccess vào thư mục đó (giúp xử lý SPA routing)
-COPY mr_quynh_build_1/.htaccess /usr/local/apache2/htdocs/.htaccess
+# COPY mr_quynh_build_1/.htaccess /usr/local/apache2/htdocs/.htaccess
 
 # Expose port 80
 EXPOSE 80
