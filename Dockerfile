@@ -5,7 +5,7 @@ FROM httpd:alpine
 RUN rm -rf /usr/local/apache2/htdocs/*
 
 # Copy React build (folder mr_quynh_build_1 chứa index.html, static/...) vào thư mục Apache
-COPY mr_quynh_build_1/ /usr/local/apache2/htdocs/
+COPY mr_quynh_build/ /usr/local/apache2/htdocs/
 
 # Copy file .htaccess vào thư mục đó (giúp xử lý SPA routing)
 # COPY mr_quynh_build_1/.htaccess /usr/local/apache2/htdocs/.htaccess
